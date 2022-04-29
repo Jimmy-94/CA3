@@ -21,17 +21,22 @@ namespace CA3_2022_Demo
                 myPlayers[i] = new Player();
                 myPlayers[i].Name = randomNames[i]; //Console.ReadLine();
             }
-            
+        
             Console.WriteLine("Menu");
             Console.WriteLine("1. Enter results ");
             Console.WriteLine("2. View player details");
             Console.WriteLine("3. Play a game");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. Create players from array");
+            Console.WriteLine("5. Enter players from file");
+            Console.WriteLine("6. Save to file");
+            Console.WriteLine("7. Exit");
+
             int choice;
             Console.Write("Enter choice :");
             choice = int.Parse(Console.ReadLine());
 
-            while (choice != 4)
+
+            while (choice != 7)
             {
                 if (choice == 1)
                     AddScores();
@@ -39,6 +44,12 @@ namespace CA3_2022_Demo
                     PrintPlayerInfo();
                 else if (choice == 3)
                     PlayGame();
+                else if (choice == 4)
+                    CreatePlayersFromArray();
+                else if (choice == 5)
+                    ReadFromFile();
+                else if (choice == 6)
+                    saveTofile();
                 else
                     Console.WriteLine("invalid choice for now");
 
@@ -46,12 +57,17 @@ namespace CA3_2022_Demo
                 Console.WriteLine("1. Enter results ");
                 Console.WriteLine("2. View player details");
                 Console.WriteLine("3. Play a game");
-                Console.WriteLine("4. Exit");
-                Console.WriteLine("5. Save to file");
+                Console.WriteLine("4. Create players from array");
+                Console.WriteLine("5. Enter players from file");
+                Console.WriteLine("6. Save to file");
+                Console.WriteLine("7. Exit");
 
                 Console.Write("Enter choice :");
                 choice = int.Parse(Console.ReadLine());
+
+                
             }
+
 
         }
 
@@ -86,6 +102,7 @@ namespace CA3_2022_Demo
                 int myGuess = int.Parse(Console.ReadLine());
                 if (myGuess == num)
                     Console.WriteLine("you win");
+
                 else if (myGuess < num)
                     Console.WriteLine("too low");
                 else
@@ -93,14 +110,41 @@ namespace CA3_2022_Demo
             }
             Console.WriteLine("you took {0} turns",count);
         }
+
+        static void ReadFromFile()
+        {
+            FileStream fs = new FileStream("players.txt", FileMode.Open, FileAccess.Write);
+
+            StreamReader sr = new StreamReader(fs);
+
+            string[] randomNames = { "pat", "ann", "frank", "mary", "john" };
+            for (int i = 0; i < 5; i++)
+            { 
+                string linein = sr.ReadLine();
+                myPlayers[i] = new Player();
+                myPlayers[i].Name = linein;
+            }
+            sr.Close();
+        }
+
+        static void CreatePlayersFromArray()
+        {
+            string[] randomNames = { "pat", "ann", "frank", "mary", "john" };
+            for (int i = 0; i < 5; i++)
+            {
+                myPlayers[i] = new Player();
+                myPlayers[i].Name = randomNames[i];
+            }
+        }
+
         static void PrintPlayerInfo()
         {
-            Console.WriteLine("player info ");
+            Console.WriteLine("Leaderboard ");
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine(myPlayers[i].ToString());
-                Console.WriteLine(myPlayers[i].avg());
-                Console.WriteLine(myPlayers[i].PercentageWin());
+                Console.WriteLine("Average number of turns = {0}", myPlayers[i].avg());
+                Console.WriteLine("Percentage wins           {0}", myPlayers[i].PercentageWin());
 
             }
         }
