@@ -123,7 +123,7 @@ namespace CA3_2022_Demo
         public void AddTurnsTaken(int t)
         {
             // records a score for a particular game
-            _scores[GamesPlayed-1] = t;
+            _scores[GamesPlayed] = t;
             GamesPlayed++;
         }
     }

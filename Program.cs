@@ -21,7 +21,7 @@ namespace CA3_2022_Demo
                 myPlayers[i] = new Player();
                 myPlayers[i].Name = randomNames[i]; //Console.ReadLine();
             }
-        
+
             Console.WriteLine("Menu");
             Console.WriteLine("1. Enter results ");
             Console.WriteLine("2. View player details");
@@ -65,7 +65,7 @@ namespace CA3_2022_Demo
                 Console.Write("Enter choice :");
                 choice = int.Parse(Console.ReadLine());
 
-                
+
             }
 
 
@@ -74,7 +74,7 @@ namespace CA3_2022_Demo
         static void saveTofile()
         {
             FileStream fs = new FileStream("players.txt", FileMode.Open, FileAccess.Write);
-            
+
             StreamWriter sw = new StreamWriter(fs);
 
             for (int i = 0; i < 5; i++)
@@ -82,7 +82,7 @@ namespace CA3_2022_Demo
                 sw.WriteLine("{0},{1},{2}", myPlayers[i].Name, myPlayers[i].PlayerNumber, myPlayers[i].GamesPlayed);
             }
 
-            
+
         }
 
         static void PlayGame()
@@ -92,7 +92,7 @@ namespace CA3_2022_Demo
 
             Random myRandom = new Random();
             int num = myRandom.Next(1, 20);
-            Console.WriteLine("number = {0}",num);
+            Console.WriteLine("number = {0}", num);
 
             while (match == false)
             {
@@ -100,16 +100,22 @@ namespace CA3_2022_Demo
                 Console.WriteLine("Guess a number between 1 - 20");
 
                 int myGuess = int.Parse(Console.ReadLine());
-                if (myGuess == num)
+                if (myGuess == num) 
+                { 
                     Console.WriteLine("you win");
+                    match = true;
+                }
+
+
 
                 else if (myGuess < num)
                     Console.WriteLine("too low");
+
                 else
                     Console.WriteLine("too high");
             }
-            Console.WriteLine("you took {0} turns",count);
-        }
+            Console.WriteLine("you took {0} turns", count);
+        } 
 
         static void ReadFromFile()
         {
@@ -157,13 +163,30 @@ namespace CA3_2022_Demo
                 Console.Write("Enter player number : ");
                 int n = int.Parse(Console.ReadLine());
 
-                if (myPlayers[n-1].GamesPlayed <=10) // check before we set value
+                Player selectedPlayer;
+
+                try
+                {
+
+                    selectedPlayer = myPlayers[n - 1];
+
+                }
+                catch
+                (IndexOutOfRangeException e)
+
+                {
+                    Console.WriteLine("That player does not exist");
+                    break;
+                }
+                
+
+                if (selectedPlayer.GamesPlayed <=10) // check before we set value
                 
                 {
                     
                     Console.WriteLine("How many turns did you take");
                     int t = int.Parse(Console.ReadLine());
-                    myPlayers[n - 1].AddTurnsTaken(t);
+                    selectedPlayer.AddTurnsTaken(t);
                 }
                 else
                 {
